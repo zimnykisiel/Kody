@@ -1,0 +1,203 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace grafika_lab_5
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            
+        }
+        private int szer = 0;
+        private int wys = 0;
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Load(openFileDialog1.FileName);
+                szer = pictureBox1.Image.Width;
+                wys = pictureBox1.Image.Height;
+                pictureBox2.Image = new Bitmap(szer, wys);
+            }
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            double n = Convert.ToDouble(trackBar1.Value)/10;
+            Bitmap b1 = (Bitmap)pictureBox1.Image;
+            Bitmap b2 = (Bitmap)pictureBox2.Image;
+            Color k;
+            double r, g, b;
+            for (int x = 0; x < szer; x++)
+            {
+                for (int y = 0; y < wys; y++)
+                {
+                    k = b1.GetPixel(x, y);
+                    r = Math.Pow(1 * k.R / 255.0, n) * 255.0;
+                    g = Math.Pow(1 * k.G / 255.0, n) * 255.0;
+                    b = Math.Pow(1 * k.B / 255.0, n) * 255.0;
+                    k = Color.FromArgb(Convert.ToInt32(r), Convert.ToInt32(g), Convert.ToInt32(b));
+                    b2.SetPixel(x, y, k);
+                }
+            }
+            pictureBox2.Refresh();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            double c = Convert.ToDouble(trackBar2.Value);
+            Bitmap b1 = (Bitmap)pictureBox1.Image;
+            Bitmap b2 = (Bitmap)pictureBox2.Image;
+            Color k;
+            double r, g, b;
+            for (int x = 0; x < szer; x++)
+            {
+                for (int y = 0; y < wys; y++)
+                {
+                    k = b1.GetPixel(x, y);
+                    if (c >= 0)
+                    {
+                        r = (127.0 / (127.0 - c)) * (k.R - c);
+                        g = (127.0 / (127.0 - c)) * (k.G - c);
+                        b = (127.0 / (127.0 - c)) * (k.B - c);
+                        if (r > 255.0) r = 255.0;
+                        if (g > 255.0) g = 255.0;
+                        if (b > 255.0) b = 255.0;
+                        if (r < 0) r = 0;
+                        if (g < 0) g = 0;
+                        if (b < 0) b = 0;
+                    }
+                    else
+                    {
+                        r = ((127.0 + c) / 127) * (k.R - c);
+                        g = ((127.0 + c) / 127) * (k.G - c);
+                        b = ((127.0 + c) / 127) * (k.B - c);
+                        if (r > 255.0) r = 255.0;
+                        if (g > 255.0) g = 255.0;
+                        if (b > 255.0) b = 255.0;
+                        if (r < 0) r = 0;
+                        if (g < 0) g = 0;
+                        if (b < 0) b = 0;
+                    }
+
+                    k = Color.FromArgb(Convert.ToInt32(r), Convert.ToInt32(g), Convert.ToInt32(b));
+                    b2.SetPixel(x, y, k);
+                }
+            }
+            pictureBox2.Refresh();
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            double c = Convert.ToDouble(trackBar3.Value);
+            Bitmap b1 = (Bitmap)pictureBox1.Image;
+            Bitmap b2 = (Bitmap)pictureBox2.Image;
+            Color k;
+            double r, g, b;
+            for (int x = 0; x < szer; x++)
+            {
+                for (int y = 0; y < wys; y++)
+                {
+                    k = b1.GetPixel(x, y);
+                    if(c>=0)
+                    {
+                        if (k.R < c)
+                        {
+                            r = ((127.0 - c) / 127.0) * k.R;
+                        }
+                        else
+                        {
+                            r = ((127.0 - c) / 127.0) * k.R + 2 * c;
+                        }
+                        if (k.G < c)
+                        {
+                            g = ((127.0 - c) / 127.0) * k.G;
+                        }
+                        else
+                        {
+                            g = ((127.0 - c) / 127.0) * k.G + 2 * c;
+                        }
+                        if (k.B < c)
+                        {
+                            b = ((127.0 - c) / 127.0) * k.B;
+                        }
+                        else
+                        {
+                            b = ((127.0 - c) / 127.0) * k.B + 2 * c;
+                        }
+                    }
+                    else
+                    {
+                        if (k.R < c + 127.0)
+                        {
+                            r = (127.0 / (127.0 + c)) * k.R;
+                        }
+                        else if(k.R >127.0-c)
+                        {
+                            r = (127.0 * k.R + 255 * c) / (127.0 + c);
+                        }
+                        else
+                        {
+                            r = 127;
+                        }
+                        if (k.G < c + 127.0)
+                        {
+                            g = (127.0 / (127.0 + c)) * k.G;
+                        }
+                        else if (k.G > 127.0 - c)
+                        {
+                            g = (127.0 * k.G + 255 * c) / (127.0 + c);
+                        }
+                        else
+                        {
+                            g = 127;
+                        }
+                        if (k.B < c + 127.0)
+                        {
+                            b = (127.0 / (127.0 + c)) * k.B;
+                        }
+                        else if (k.B > 127.0 - c)
+                        {
+                            b = (127.0 * k.B + 255 * c) / (127.0 + c);
+                        }
+                        else
+                        {
+                            b = 127;
+                        }
+                        if (r > 255.0) r = 255;
+                        if (r < 0) r = 0;
+                        if (g > 255.0) g = 255;
+                        if (g < 0) g = 0;
+                        if (b > 255.0) b = 255;
+                        if (b < 0) b = 0;
+                    }
+
+                    k = Color.FromArgb(Convert.ToInt32(r), Convert.ToInt32(g), Convert.ToInt32(b));
+                    b2.SetPixel(x, y, k);
+                }
+            }
+            pictureBox2.Refresh();
+        }
+    }
+}
