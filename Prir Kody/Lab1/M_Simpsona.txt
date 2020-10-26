@@ -1,0 +1,52 @@
+import java.util.ArrayList;
+
+public class M_Spimsona extends Thread {
+    private ArrayList<Double> x = new ArrayList<Double>();
+    private ArrayList<Double> fx = new ArrayList<Double>();
+    private ArrayList<Double> ta = new ArrayList<Double>();
+    private double a,b;
+    public double wynik;
+
+    public M_Spimsona(double ai, double bi){
+        a = ai;
+        b = bi;
+    }
+
+    public void run(){
+        int n = 10;
+        double h, punkt, t, w, w1;
+        double suma=0, sumat=0;
+
+
+        for(double i=0; i<=n; i++){
+            punkt = a + (i/n) *(b-a);
+            x.add(punkt);
+        }
+
+        for(int i=0; i<=x.size()-1; i++){
+            w = (Math.pow(x.get(i), 2)+2*x.get(i)-5)/(3*x.get(i)+5);
+            fx.add(w);
+        }
+
+        h = (x.get(x.size()-1) - x.get(x.size()-2))/2;
+
+
+
+        for(int k=0; k<n; k++){
+            t = (x.get(k+1) + x.get(k))/2.0;
+            w1 = (Math.pow(t, 2)+2*t-5)/(3*t+5);
+            ta.add(w1);
+        }
+
+        for(int j=1; j<n; j++){
+            suma+=fx.get(j);
+        }
+
+        for(int g=0; g<n; g++){
+            sumat += ta.get(g);
+        }
+
+        wynik = (h/3)*(fx.get(0)+(4*sumat)+2*suma+fx.get(fx.size()-1));
+        //System.out.println(wynik);
+    }
+}

@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+
+public class M_Trapezow extends Thread {
+    private ArrayList<Double> p = new ArrayList<>();
+    private double a,b;
+    public double wynik;
+
+    public M_Trapezow(double ai, double bi){
+        a = ai;
+        b = bi;
+    }
+
+    public void run(){
+        int n = 10;
+        double h, punkt, w;
+        double suma=0;
+        h = (b-a)/n;
+
+
+
+        for(double i=0; i<=n; i++){
+            punkt = a + i/n *(b-a);
+            w = (1.4*punkt+0.3)/(2.3+Math.cos(0.4*Math.pow(punkt, 2)+1));
+
+            p.add(w);
+        }
+        for(int i=1; i<n; i++){
+            suma+= p.get(i);
+        }
+        wynik = h*(p.get(0)/2 + suma + p.get(p.size()-1)/2);
+    }
+}

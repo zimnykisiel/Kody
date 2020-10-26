@@ -1,0 +1,22 @@
+public class M_Prostokatow extends Thread {
+    private double a, b;
+    public double wynik = 0;
+    public M_Prostokatow(double ai, double bi){
+        a = ai;
+        b = bi;
+    }
+    public void run(){
+        int n = 10;
+        double dx;
+        double funkcja;
+
+        dx = (b - a)/n;
+        for(int i = 1; i <= n; i++){
+            funkcja = a + i*dx;
+            wynik += funkcja;
+        }
+        wynik *= dx;
+
+    }
+
+}
