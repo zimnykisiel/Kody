@@ -1,0 +1,102 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) throws Exception{
+        Scanner scan = new Scanner(System.in);
+        boolean flaga = true;
+
+        double a = 1.2, b = 2.5, wynik = 0, xp, xk;
+        int watki;
+
+
+        while(flaga){
+            System.out.println("Wybierz metode:");
+            System.out.println("1. Metoda simpsona");
+            System.out.println("2. Metoda trapezow");
+            System.out.println("3. Metoda prostokatow");
+            System.out.println("4. Wszystkie na raz");
+            System.out.println("5. Wyjdź");
+            System.out.print("Wybor: ");
+            int wybor = scan.nextInt();
+
+
+            if(wybor !=5){
+                System.out.println("Podaj liczbę wątków");
+                watki = scan.nextInt();
+            }
+            else {
+                watki = 0;
+            }
+
+            switch (wybor){
+                case 1:
+                    System.out.println("Metoda Simpsona");
+                    for(int i =0; i < watki; i++){
+                        xp = a + (b-a) / watki * i;
+                        xk = a + (b-a) / watki *(i+1);
+                        M_Spimsona simpson = new M_Spimsona(xp, xk);
+                        simpson.start();
+                        simpson.join();
+
+                        wynik += simpson.wynik;
+                    }
+                    System.out.println("Wynik: "+wynik);
+                    break;
+                case 2:
+                    System.out.println("Metoda trapezów");
+                    for(int i =0; i < watki; i++){
+                        xp = a + (b-a) / watki * i;
+                        xk = a + (b-a) / watki *(i+1);
+                        M_Trapezow trapezy = new M_Trapezow(xp, xk);
+                        trapezy.start();
+                        trapezy.join();
+
+                        wynik += trapezy.wynik;
+                    }
+                    System.out.println("Wynik: "+wynik);
+                    break;
+                case 3:
+                    System.out.println("Metoda prostokątów");
+                    for(int i =0; i < watki; i++){
+                        xp = a + (b-a) / watki * i;
+                        xk = a + (b-a) / watki *(i+1);
+                        M_Prostokatow prostokaty = new M_Prostokatow(xp, xk);
+                        prostokaty.start();
+                        prostokaty.join();
+
+                        wynik += prostokaty.wynik;
+                    }
+                    System.out.println("Wynik: "+wynik);
+                    break;
+                case 4:
+                    for(int i =0; i < watki; i++){
+                        xp = a + (b-a) / watki * i;
+                        xk = a + (b-a) / watki *(i+1);
+                        M_Prostokatow prostokaty = new M_Prostokatow(xp, xk);
+                        M_Trapezow trapezy = new M_Trapezow(xp, xk);
+                        M_Spimsona simpson = new M_Spimsona(xp, xk);
+
+                        prostokaty.start();
+                        prostokaty.join();
+                        wynik += prostokaty.wynik;
+
+                        trapezy.start();
+                        trapezy.join();
+                        wynik += trapezy.wynik;
+
+                        simpson.start();
+                        simpson.join();
+                        wynik += simpson.wynik;
+
+                    }
+                    System.out.println("Wynik: "+wynik);
+                    break;
+                case 5:
+                    flaga = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
