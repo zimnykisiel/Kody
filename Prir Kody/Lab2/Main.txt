@@ -1,0 +1,16 @@
+public class Main {
+    public static void main(String args[]){
+        int iloscCzolgow = 3;
+        int iloscHangarow = 2;
+        int iloscZolnierzy = 3;
+        int iloscLozek = 2;
+        Baza baza = new Baza(iloscCzolgow, iloscHangarow, iloscZolnierzy, iloscLozek);
+        for(int i=0; i<iloscZolnierzy; i++){
+            new Zolnierz(i, 100, baza).start();
+        }
+        for(int i=0; i<iloscCzolgow; i++){
+            new Czolg(i, 200, baza).start();
+        }
+
+    }
+}

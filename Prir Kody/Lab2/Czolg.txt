@@ -1,0 +1,78 @@
+import java.util.Random;
+
+public class Czolg extends Thread{
+    static int Baza=1;
+    static int Wyrusz=2;
+    static int Strzal=3;
+    static int powrotDoBazy=4;
+    static int CzolgZniszczony=5;
+    static int CzolgWDrodze = 6;
+    static int naprawCzolg=100;
+    static int Odwrot=50;
+
+    int numer, zycieCzolgu, stan;
+    Random rand;
+    Baza b;
+
+    public Czolg(int numer, int zycieCzolgu, Baza b){
+        this.numer = numer;
+        this.zycieCzolgu = zycieCzolgu;
+        this.stan = CzolgWDrodze;
+        this.b = b;
+        rand = new Random();
+    }
+
+    public void run(){
+        while(true){
+            if(stan == Baza){
+                if(rand.nextInt(2)==1){
+                    stan = Wyrusz;
+                    zycieCzolgu = naprawCzolg;
+                    System.out.println("Czolg " + numer + " prosi o pozwolenie na wyruszenie z bazy");
+                    stan = b.wyrusz(numer);
+                }
+                else{
+                    System.out.println("Czolg w naprawie");
+                }
+            }
+            else if(stan==Wyrusz){
+                System.out.println("Czołg " + numer + " wyrusza z bazy");
+                stan = CzolgWDrodze;
+            }
+            else if(stan==CzolgWDrodze){
+                System.out.println("Czolg " + numer + " w drodze na pole bitwy");
+                zycieCzolgu -= rand.nextInt(30);
+                if(zycieCzolgu <= Odwrot){
+                    stan = powrotDoBazy;
+                }
+                else try{
+                    sleep(rand.nextInt(1000));
+                    stan = Strzal;
+                }
+                catch(Exception e){
+
+                }
+            }
+            else if(stan == Strzal){
+                System.out.println("Czolg " + numer  + " oddal strzal w kierunku wroga");
+                stan = CzolgWDrodze;
+            }
+            else if(stan==powrotDoBazy){
+                System.out.println("Czolg o numerze " + numer + " prosi o pozwolenie na odwrot do bazy, stan czolgu wynosci " + zycieCzolgu + "%");
+                stan = b.wracaj();
+                if(stan == powrotDoBazy){
+                    zycieCzolgu -= rand.nextInt(20);
+                    System.out.println("Czolg uszkodzony");
+                    if(zycieCzolgu<=0){
+                        stan=CzolgZniszczony;
+                    }
+                }
+            }
+            else if(stan==CzolgZniszczony){
+                System.out.println("Czolg " + numer + " zostal zniszczony");
+                b.zmniejsz();
+            }
+        }
+    }
+
+}

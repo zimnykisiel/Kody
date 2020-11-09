@@ -1,0 +1,74 @@
+import java.util.Random;
+
+public class Zolnierz extends Thread{
+    static int Baza=1;
+    static int Wyrusz=2;
+    static int marsz=3;
+    static int powrotDoBazy=4;
+    static int ZolnierzZabity=5;
+    static int ZolnierzNaPoluBitwy = 6;
+    static int uleczZolnierza=100;
+    static int Odwrot=50;
+
+    int numer, zdrowieZolnierza, stan;
+
+    Baza b;
+    Random rand;
+
+    public Zolnierz(int numer, int zdrowieZolnierza, Baza b){
+        this.numer = numer;
+        this.zdrowieZolnierza = zdrowieZolnierza;
+        this.stan = marsz;
+        this.b = b;
+        rand = new Random();
+    }
+
+    public void run(){
+        while(true){
+            if(stan == Baza){
+                if(rand.nextInt(2)==1){
+                    stan = Wyrusz;
+                    zdrowieZolnierza = uleczZolnierza;
+                    System.out.println("Zolnierz " + numer + " czeka na komende do wyjscia z bazy");
+                    stan = b.zolnierzWyrusza(numer);
+                }
+                else{
+                    System.out.println("Zolnierz w sanitarium");
+                }
+            }
+            else if(stan==marsz){
+                System.out.println("Zolnierz " + numer + " wyrusza z bazy");
+                stan = ZolnierzNaPoluBitwy;
+            }
+            else if(stan==ZolnierzNaPoluBitwy){
+                System.out.println("Zolnierz  " + numer + " walczy");
+                zdrowieZolnierza -= rand.nextInt(30);
+                if(zdrowieZolnierza <= Odwrot){
+                    stan = powrotDoBazy;
+                }
+                else try{
+                    sleep(rand.nextInt(1000));
+                }
+                catch(Exception e){
+
+                }
+            }
+            else if(stan==powrotDoBazy){
+                System.out.println("Zolnierz " + numer + " prosi o pozwolenie na odwrot do bazy, stan jego zdrowia wynosi " + zdrowieZolnierza + "%");
+                stan = b.wracajZolnierzu();
+                if(stan == powrotDoBazy){
+                    zdrowieZolnierza -= rand.nextInt(20);
+                    System.out.println("Zolnierz ranny");
+                    if(zdrowieZolnierza<=0){
+                        stan=ZolnierzZabity;
+                    }
+                }
+            }
+            else if(stan==ZolnierzZabity){
+                System.out.println("Zolnierz "+ numer + " został zabity");
+                b.zmniejszIloscZolnierzy();
+            }
+        }
+    }
+}
+

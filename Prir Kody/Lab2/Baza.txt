@@ -1,0 +1,80 @@
+public class Baza {
+    static int Baza=1;
+    static int Wyrusz=2;
+    static int ZolnierzWyrusza=3;
+    static int powrotDoBazy=4;
+
+
+
+    int iloscCzolgow;
+    int iloscHangarow;
+    int iloscZajetychHangarow;
+
+    int iloscLozek;
+    int iloscZajetychLozek;
+    int iloscZolnierzy;
+
+    public Baza(int iloscCzolgow, int iloscHangarow, int iloscZolnierzy, int iloscLozek){
+        this.iloscCzolgow = iloscCzolgow;
+        this.iloscHangarow = iloscHangarow;
+        this.iloscZolnierzy = iloscZolnierzy;
+        this.iloscLozek = iloscLozek;
+        iloscZajetychLozek = 0;
+        iloscZajetychHangarow = 0;
+    }
+
+    synchronized int wyrusz(int numer){
+        iloscZajetychHangarow--;
+        System.out.println("Czolg " + numer + " może wyruszyć z bazy");
+        return Wyrusz;
+    }
+    synchronized int zolnierzWyrusza(int numer){
+        iloscZajetychLozek--;
+        System.out.println("Zolnierz "+ numer + " moze wyruszyc z bazy");
+        return ZolnierzWyrusza;
+    }
+    synchronized int wracajZolnierzu(){
+        try{
+            Thread.currentThread().sleep(1000);
+        }
+        catch (Exception e){
+
+        }
+        if(iloscZajetychLozek<iloscLozek){
+            iloscZajetychLozek ++;
+            System.out.println("Zezwolono na powrot do lozka numer:  " + iloscZajetychLozek);
+            return Baza;
+        }
+        else{
+            return powrotDoBazy;
+        }
+    }
+    synchronized int wracaj(){
+        try{
+            Thread.currentThread().sleep(1000);
+        }
+        catch (Exception e){
+
+        }
+        if(iloscZajetychHangarow<iloscHangarow){
+            iloscZajetychHangarow ++;
+            System.out.println("Zezwolono na powrot do hangaru numer: " + iloscZajetychHangarow);
+            return Baza;
+        }
+        else{
+            return powrotDoBazy;
+        }
+    }
+    synchronized void zmniejsz(){
+        iloscCzolgow--;
+        if(iloscCzolgow==iloscHangarow){
+            System.out.println("Ilosc czolgow jest taka sama jak hangarow");
+        }
+    }
+    synchronized void zmniejszIloscZolnierzy(){
+        iloscZolnierzy--;
+        if(iloscZolnierzy==iloscLozek){
+            System.out.println("Ilosc zolnierzy jest taka sama jak lozek");
+        }
+    }
+}
