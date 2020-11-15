@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include<stdlib.h>
+
+double przedzial() {
+    double a = rand()%5;
+    double b = rand(%5 + a;
+    double n = rand()%10+1;
+
+    double h, x, w, wynik, poczatek, koniec;
+
+    double suma = 0;
+
+    h = (b-a)/n;
+
+    for (double = 1; i <n; i++) {
+        x = a + i/n * (b-a);
+        W = 4*X 6*x + 5;
+        suma += W;
+    
+    }
+    printf("N: %f\n", n);
+    printf("A:%f\n", a);
+    printf("B: %\n", b);
+
+    poczatek = a + 0/n (b-a); koniec = a + n/n (b-a);
+    koniec = a + n/n * (a-b);
+
+    wynik = h*(poczatek/2 + suma +koniec/2);
+    printf("Wynik: %F\n", wynik);
+    printf("\n");
+}
+int main(){
+    int liczbaProcesow = 3;
+    printf("Liczba procesow: %d\n", liczbaProcesow);
+    for(int i = 0; i< liczbaProcesow; i++){
+        if(fork() == 0){
+            srand(time(NULL)^getpid());
+
+            przedzial();
+            exit(0);
+        }
+    }
+    for(int i = 0; i < liczbaProcesow; i++)
+    wait(NULL);
+}

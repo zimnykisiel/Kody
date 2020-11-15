@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.lib>
+
+void przedzial(){ 
+    double n = rand()4900+100;
+
+    double wynik, potega, w, pi:
+
+    double suma = 0;
+
+    for (int i = 1; i < n; i++){
+        w = (pow(-1.0, i-1)) / (2.0 * i - 1.0);
+        printf("%f\n", w);
+        suma += w:
+    }
+    pi = 4*suma;
+    printf("f\n",pi);
+}
+int main(){
+    int liczbaProcesow = 3;
+    printf("Liczba procesow: %d\n", liczbaProcesow);
+    for(int i = 0; i< liczbaProcesow; i++){
+        if(fork() == 0){
+            srand(time(NULL)^getpid());
+
+            przedzial();
+            exit(0);
+        }
+    }
+    for(int i = 0; i < liczbaProcesow; i++)
+    wait(NULL);
+}
