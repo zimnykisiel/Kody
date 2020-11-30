@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include "mpi.h"
+#include <math.h>
+int main(int argc, char **argv){
+	int liczba_procesu, numer_procesu;
+	int tag =20;
+	double h, punkt, w, wynik, suma, a, b;
+	
+	a=1.0;
+	b=3.0;
+	
+	
+	
+	MPI_Status status;
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &numer_procesu);
+	MPI_Comm_size(MPI_COMM_WORLD, &liczba_procesu);
+	
+	double funkcja(double x){
+		return pow(x, 2.0);
+	}
+	
+	if(numer_procesu == liczba_procesu-1){
+		suma = funkcja(a)/2;
+		suma += funkcja(a + (1.0*numer_procesu/liczba_procesu)*(b-a));
+		suma += funkcja(b)/2;
+
+		MPI_Send(&suma, 1, MPI_DOUBLE, numer_procesu-1,tag, MPI_COMM_WORLD);
+	}
+	if(numer_procesu > 0 && numer_procesu<liczba_procesu-1){
+		MPI_Recv(&suma, 1, MPI_DOUBLE, numer_procesu+1, tag,MPI_COMM_WORLD, &status);
+		suma += funkcja(a + (1.0*numer_procesu/liczba_procesu)*(b-a));
+		MPI_Send(&suma, 1, MPI_DOUBLE, numer_procesu-1,tag, MPI_COMM_WORLD);
+	}
+	if(numer_procesu == 0){
+		
+		MPI_Recv(&suma, 1, MPI_DOUBLE, numer_procesu+1, tag,MPI_COMM_WORLD, &status);
+		suma += funkcja(a + (1.0*numer_procesu/liczba_procesu)*(b-a));
+		double h = (b-a)/liczba_procesu;
+		wynik = h*suma
+		printf("WYNIK = %lf\n",wynik);
+	}
+	
+	
+	
+	MPI_Finalize();
+	return 0;
+	  
+}
