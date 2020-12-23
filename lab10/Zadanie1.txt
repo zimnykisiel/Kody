@@ -1,0 +1,50 @@
+//Metoda Simpsona
+import tensorflow as tf
+
+def integral(y, x):
+    h = (x[-1] - x[0]) / (int(x.shape[0]) - 1)
+    return (y[0] + y[-1] + 4*tf.reduce_sum(y[1:-1:2]) + 2*tf.reduce_sum(y[2:-1:2])) * h / 3
+
+with tf.compat.v1.Session() as sess:
+  a = tf.constant(0, dtype=tf.float64)
+  b = tf.constant(5, dtype=tf.float64)
+  x = tf.linspace(a, b, 2**5+1)
+  result = integral(tf.sin(x), x)
+  print(sess.run(result))
+
+
+//Metoda Trapezow
+import tensorflow as tf
+from math import pi
+
+def integral(y, x):
+    dx = (x[-1] - x[0]) / (int(x.shape[0]) - 1)
+    return ((y[0] + y[-1])/2 + tf.reduce_sum(y[1:-1])) * dx
+
+with tf.compat.v1.Session() as sess:
+  a = tf.constant(0, dtype=tf.float64)
+  b = tf.constant(pi/2, dtype=tf.float64)
+  x = tf.linspace(a, b, 2**5+1)
+  result = integral(tf.sin(x), x)
+  print(sess.run(result))
+
+
+
+//Metoda prostokątów
+import tensorflow as tf
+from math import pi
+
+def integral(y, x):
+    dx = (x[-1] - x[0]) / (int(x.shape[0]) - 1)
+    return tf.reduce_sum(y[:-1]) * dx
+
+with tf.compat.v1.Session() as sess:
+  a = tf.constant(0, dtype=tf.float64)
+  b = tf.constant(pi/2, dtype=tf.float64)
+  x = tf.linspace(a, b, 2**5+1)
+  result = integral(tf.sin(x), x)
+  print(sess.run(result))
+
+
+
+
