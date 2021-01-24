@@ -1,0 +1,21 @@
+Para inteligentnych okularów dla niewidomych.
+
+https://github.com/ArifSohaib/AutonomousRobotChallenge
+
+SIGHT to para inteligentnych okularów dla niewidomych, która pozwala im zrozumieć, co się wokół nich dzieje. Kiedy osoba niewidoma naciśnie przycisk na urządzeniu SIGHT, rejestruje obraz sceny przed nią. Obraz ten jest następnie analizowany za pomocą TensorFlow, który wykrywa obiekty na obrazie i pomaga osobie poruszać się po otoczeniu za pomocą asystenta głosowego.
+
+
+Farmaid
+
+https://github.com/ArifSohaib/AutonomousRobotChallenge
+
+To robot który może poruszać się w szklarni bez uszkadzania roślin lub gleby i identyfikuje chore uprawy lub rośliny za pomocą wykrywania obiektów.
+
+
+WildEye
+
+Ten projekt wykorzystuje najnowsze technologie Deep Learning'u do wykrywania i wysyłania alarmu za każdym razem, gdy wykryta zostanie nielegalna próba handlu zwierząt. System WildEye jest rozmieszczony w różnych częściach chronionych stref dzikich zwierząt w Kenii w celu monitorowania i gromadzenia danych na temat kwitnących tam gatunków, ich populacji, ich działalności i miejsca pobytu.
+
+
+
+
